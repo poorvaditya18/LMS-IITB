@@ -1,19 +1,38 @@
 const express = require("express");
 const MemberController = require("../../controllers/memberController");
+const { authenticateUser } = require("../../middlewares/authenticate");
+const { authorisationMember } = require("../../middlewares/authorisation");
 const memberController = new MemberController();
 const router = express.Router();
 
-// view --> get All books which are available in DB
-router.get("/books", memberController.getAllBooks);
+router.get(
+  "/books",
+  [authenticateUser, authorisationMember],
+  memberController.getAllBooks
+);
 
-router.get("/book/:id", memberController.getBook);
-// borrow -> whicever book is borrowed change its status to "Borrowed" , update borrow array for member
-router.post("/books-borrow", memberController.borrowBook);
+router.get(
+  "/book/:id",
+  [authenticateUser, authorisationMember],
+  memberController.getBook
+);
 
-// return --> book is returned mark its status as "available", add to returnedBooks array for member.
-router.post("/books-return", memberController.returnBook);
+router.post(
+  "/books-borrow",
+  [authenticateUser, authorisationMember],
+  memberController.borrowBook
+);
 
-// delete user account
-router.delete("/delete-member/:id", memberController.deleteMember);
+router.post(
+  "/books-return",
+  [authenticateUser, authorisationMember],
+  memberController.returnBook
+);
+
+router.delete(
+  "/delete-member/:id",
+  [authenticateUser, authorisationMember],
+  memberController.deleteMember
+);
 
 module.exports = router;

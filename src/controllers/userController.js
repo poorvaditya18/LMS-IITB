@@ -32,7 +32,6 @@ class UserController {
 
   async signin(req, res) {
     try {
-      console.log(req.body);
       const token = await userService.signin(req.body);
       return res.status(200).json({
         success: true,
@@ -59,7 +58,14 @@ class UserController {
         success: true,
         err: {},
       });
-    } catch (error) {}
+    } catch (error) {
+      return res.status(500).json({
+        message: "Something Went Wrong",
+        data: {},
+        success: false,
+        err: error,
+      });
+    }
   }
 }
 

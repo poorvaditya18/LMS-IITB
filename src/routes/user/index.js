@@ -5,11 +5,6 @@ const UserController = require("../../controllers/userController");
 
 const userController = new UserController();
 
-// get all users ->
-router.get("/", userController.getAllUsers);
-
-
-
 // signup -->
 router.post("/signup", userController.signup);
 

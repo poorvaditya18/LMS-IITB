@@ -1,5 +1,6 @@
 const UserRepository = require("../repository/userRepository");
 const MemberRepository = require("../repository/memberRepository");
+
 class UserService {
   constructor() {
     this.userRepository = new UserRepository();
