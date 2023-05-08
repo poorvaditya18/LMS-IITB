@@ -1,10 +1,11 @@
 const LibrarianRepository = require("../repository/librarianRepository");
 const UserRepository = require("../repository/userRepository");
-
+const MemberRepository = require("../repository/memberRepository");
 class LibrarianService {
   constructor() {
     this.librarianRepository = new LibrarianRepository();
     this.userRepository = new UserRepository();
+    this.memberRepository = new MemberRepository();
   }
 
   // get a book
@@ -81,6 +82,9 @@ class LibrarianService {
   async addUser(data) {
     try {
       const user = await this.userRepository.create(data);
+      if (user.role == "member") {
+        const member = await this.memberRepository.create({ userId: user._id });
+      }
       return user;
     } catch (error) {
       console.log(error);
@@ -91,11 +95,8 @@ class LibrarianService {
   // get a member-->
   async getMember(userId) {
     try {
-      const user = await this.userRepository.get(userId);
-      if (user.role != "member") {
-        return;
-      }
-      return user;
+      const member = await this.memberRepository.getMember(userId);
+      return member;
     } catch (error) {
       console.log(error);
       throw error;
@@ -105,10 +106,7 @@ class LibrarianService {
   // get all members -->
   async getAllMembers() {
     try {
-      const allUsers = await this.userRepository.getAll();
-      const members = allUsers.filter((user) => {
-        return user.role == "member";
-      });
+      const members = await this.memberRepository.getAllMember();
       return members;
     } catch (error) {
       console.log(error);
@@ -116,15 +114,39 @@ class LibrarianService {
     }
   }
 
-  // update a member -->
+  // TODO : update a member -->
   async updateMember(userId, data) {
     try {
-      let user = await this.userRepository.get(userId);
-      if (!user && user.role != "member") {
-        return;
+      console.log(userId, data);
+      // data.username , data.borrowBooks , data.returnBooks
+      const member = await this.memberRepository.getMember(userId);
+
+      if (data.username !== null) {
+        const user = await this.userRepository.get(userId);
+        user.username = data.username;
+        await user.save();
       }
-      user = await this.userRepository.update(userId, data);
-      return user;
+      // member._id
+      if (data.borrowedBooks !== null) {
+        data.borrowedBooks.map((item) => {
+          if (member.borrowedBooks[item]) {
+          }
+          member.borrowedBooks.push(item);
+        });
+        member.borrowedBooks = [...new Set(member.borrowedBooks)];
+      }
+
+      if (data.returnedBooks !== null) {
+        data.returnedBooks.map((item) => {
+          if (member.returnedBooks[item]) {
+          }
+          member.returnedBooks.push(item);
+        });
+        member.returnedBooks = [...new Set(member.returnedBooks)];
+      }
+      // member.returnedBooks
+      await member.save();
+      return member.populate({ path: "User" });
     } catch (error) {
       console.log(error);
       throw error;
@@ -134,12 +156,12 @@ class LibrarianService {
   //delete a member -->
   async deleteMember(userId) {
     try {
-      let user = await this.userRepository.get(userId);
-      if (!user && user.role != "member") {
+      const member = await this.memberRepository.getMember(userId);
+      if (member === null) {
         return;
       }
-      user = await this.userRepository.destroy(userId);
-      return user;
+      await this.memberRepository.destroy(member._id.valueOf());
+      await this.userRepository.destroy(userId.valueOf());
     } catch (error) {
       console.log(error);
       throw error;

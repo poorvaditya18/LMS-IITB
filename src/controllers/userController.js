@@ -8,7 +8,7 @@ class UserController {
   async signup(req, res) {
     try {
       // req -> {username: ,password ,role: }
-      console.log(req.body);
+      // console.log(req.body);
       const response = await userService.signup({
         username: req.body.username,
         password: req.body.password,
@@ -32,7 +32,22 @@ class UserController {
 
   async signin(req, res) {
     try {
-    } catch (error) {}
+      console.log(req.body);
+      const token = await userService.signin(req.body);
+      return res.status(200).json({
+        success: true,
+        message: "Successfully logged In",
+        data: token,
+        err: {},
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Something Went Wrong",
+        data: {},
+        success: false,
+        err: error,
+      });
+    }
   }
 
   async getAllUsers(req, res) {

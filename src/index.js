@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const { connect } = require("./config/database");
 const passport = require("passport");
-
+const { passportAuth } = require("./middlewares/jwt-Middleware");
 const apiRoutes = require("../src/routes/index");
 
 const app = express();
@@ -11,6 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(passport.initialize());
+passportAuth(passport);
 
 app.use("/apiRoutes", apiRoutes);
 

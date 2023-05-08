@@ -152,14 +152,14 @@ class LibrarianController {
       if (!response) {
         return res.status(201).json({
           success: true,
-          message: "Not able to fetch a User",
+          message: "Not able to fetch a Member",
           data: response,
           err: {},
         });
       }
       return res.status(201).json({
         success: true,
-        message: "Successfully fetched a User",
+        message: "Successfully fetched a Member",
         data: response,
         err: {},
       });
@@ -185,11 +185,12 @@ class LibrarianController {
     }
   }
 
-  // update a member -->
+  // TODO update a member -->
   async updateMember(req, res) {
     try {
+      console.log(req.body);
       const response = await librarianService.updateMember(
-        req.query.id,
+        req.params.id,
         req.body
       );
       if (!response) {
@@ -216,17 +217,9 @@ class LibrarianController {
   async deleteMember(req, res) {
     try {
       const response = await librarianService.deleteMember(req.params.id);
-      if (!response) {
-        return res.status(201).json({
-          success: true,
-          message: "Not able to delete a User",
-          data: response,
-          err: {},
-        });
-      }
       return res.status(201).json({
         success: true,
-        message: "Successfully deleted  User",
+        message: "Successfully deleted User",
         data: response,
         err: {},
       });

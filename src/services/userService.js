@@ -20,7 +20,7 @@ class UserService {
     }
   }
 
-  // get user by email -->
+  // get user by
   async getUserByUsername(username) {
     try {
       const user = await this.userRepository.findBy({ username });
@@ -31,26 +31,26 @@ class UserService {
   }
 
   // signIn
-  // async signin(data) {
-  //   try {
-  //     //get user by email ->
-  //     const user = await this.getUserByEmail(data.email);
-  //     if (!user) {
-  //       throw {
-  //         message: "No User Found",
-  //       };
-  //     }
-  //     if (!user.comparePassword(data.password)) {
-  //       throw {
-  //         message: "Incorrect Password",
-  //       };
-  //     }
-  //     const token = user.generateJWT();
-  //     return token;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+  async signin(data) {
+    try {
+      //get user by username
+      const user = await this.getUserByUsername(data.username);
+      if (!user) {
+        throw {
+          message: "No User Found",
+        };
+      }
+      if (!user.comparePassword(data.password)) {
+        throw {
+          message: "Incorrect Password",
+        };
+      }
+      const token = user.generateJWT();
+      return token;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   async getAllUsers() {
     try {

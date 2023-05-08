@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const LibrarianController = require("../../controllers/librarianController");
 const { validateAddBook } = require("../../middlewares/validateAddBook");
+const { authenticateUser } = require("../../middlewares/authenticate");
+const { authorisation } = require("../../middlewares/authorisation");
 const validateUser = require("../../middlewares/validateUser");
 const librarianController = new LibrarianController();
 
@@ -21,13 +23,17 @@ router.delete("/book", librarianController.deleteBook);
 router.post("/member", validateUser, librarianController.addMember);
 
 // get all the members
-router.get("/member", librarianController.getAllMember);
+router.get(
+  "/member",
+  [authenticateUser, authorisation],
+  librarianController.getAllMember
+);
 
 // get a member
 router.get("/member/:id", librarianController.getMember);
 
 // update a member
-router.patch("/member", librarianController.updateMember);
+router.patch("/member/:id", librarianController.updateMember);
 
 // delete a member-->
 router.delete("/member/:id", librarianController.deleteMember);

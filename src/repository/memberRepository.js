@@ -24,6 +24,17 @@ class MemberRepository {
     }
   }
 
+  // get all members
+  async getAllMember() {
+    try {
+      const result = await Member.find({});
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   // get book
   async getBook(bookId) {
     try {
@@ -56,6 +67,7 @@ class MemberRepository {
     }
   }
 
+  // delete a member
   async destroy(memberId) {
     try {
       const response = await Member.findByIdAndDelete(memberId);
