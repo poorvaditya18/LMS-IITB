@@ -5,8 +5,14 @@ const { connect } = require("./config/database");
 const passport = require("passport");
 const { passportAuth } = require("./middlewares/jwt-Middleware");
 const apiRoutes = require("../src/routes/index");
-
+const cors = require("cors");
 const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

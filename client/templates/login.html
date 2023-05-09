@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Signup Page</title>
+    <style>
+      /* Add some basic styles to make the page look nicer */
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+      input[type="text"],
+      input[type="password"],
+      select {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        background-color: #4caf50;
+        color: #fff;
+      }
+      .tabs {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .tab {
+        margin: 0 10px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      .active {
+        border-bottom: 2px solid #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>My Website</h1>
+      <div class="tabs">
+        <div class="tab"><a href="#">Home</a></div>
+        <div class="tab active"><a href="#">Login</a></div>
+      </div>
+    </div>
+    <h2>Login</h2>
+    <form method="post" id="auth-login">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required />
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required />
+
+      <input type="submit" value="Login" />
+    </form>
+
+    <script src="../assests/loginSignup.js"></script>
+  </body>
+</html>

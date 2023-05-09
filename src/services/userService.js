@@ -10,7 +10,7 @@ class UserService {
   // signup
   async signup(data) {
     try {
-      console.log(data); // role =="member"
+      // console.log(data); // role =="member"
       const user = await this.userRepository.create(data);
       if (user.role == "member") {
         const member = await this.memberRepository.create({ userId: user._id });
@@ -35,7 +35,8 @@ class UserService {
   async signin(data) {
     try {
       //get user by username
-      const user = await this.getUserByUsername(data.username);
+      let user = await this.getUserByUsername(data.username);
+      // console.log(user);
       if (!user) {
         throw {
           message: "No User Found",
@@ -47,7 +48,15 @@ class UserService {
         };
       }
       const token = user.generateJWT();
-      return token;
+      let newUser = {
+        userId: user._id.valueOf(),
+        username: user.username,
+        password: user.password,
+        role: user.role,
+        token: token,
+      };
+      // console.log(newUser);
+      return newUser;
     } catch (error) {
       throw error;
     }

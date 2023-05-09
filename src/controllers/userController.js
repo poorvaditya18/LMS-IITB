@@ -15,7 +15,7 @@ class UserController {
         role: req.body.role,
       });
       return res.status(201).json({
-        message: "signed up user",
+        message: "Successfully Signed Up User",
         data: response,
         success: true,
         err: {},
@@ -32,11 +32,11 @@ class UserController {
 
   async signin(req, res) {
     try {
-      const token = await userService.signin(req.body);
+      const user = await userService.signin(req.body);
       return res.status(200).json({
         success: true,
         message: "Successfully logged In",
-        data: token,
+        data: user,
         err: {},
       });
     } catch (error) {

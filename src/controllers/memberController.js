@@ -38,6 +38,7 @@ class MemberController {
   async borrowBook(req, res) {
     try {
       // request -> bookid  , userId
+      // console.log(req.body);
       const response = await memberService.borrowBook({
         bookId: req.body.bookId,
         userId: req.body.userId,
