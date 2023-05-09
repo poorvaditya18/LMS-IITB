@@ -1,23 +1,24 @@
-const  mongoose  = require("mongoose");
+const mongoose = require("mongoose");
 
-const memberSchema = mongoose.Schema(
+const memberSchema = mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  //array of book ids
+  borrowedBooks: [
     {
-        userId: {
-            ref: "User",
-        },
-        //array of book ids
-        borrowedBooks: [
-            {
-                ref: "Book",
-            },
-        ],
-        returnedBooks: [
-            {
-                ref: "Book",
-            },
-        ]
-    }
-)
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+  returnedBooks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
+});
 
 const Member = mongoose.model("Member", memberSchema);
-export default Member;
+module.exports = Member;
